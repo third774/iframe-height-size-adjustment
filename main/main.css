@@ -1,0 +1,11 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    background-color: seagreen;
+    
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
