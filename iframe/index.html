@@ -9,44 +9,48 @@
         
         body {
             height: 100%;
+            /*
+            overflow-y keeps Safari from getting
+            stuck in a loop. Also keeps Chrome and
+            Firefox from double firing resize events
+            */
             overflow-y: hidden;
         }
         
         body {
             margin: 0;
-            /* overflow: hidden; */
+            /* 
+            Set to relative so height-listener iframe
+            can size itself to the height of the body
+            */
             position: relative;
+
+            /* Non-crucial styling for contrast */
             background-color:antiquewhite;
-            font-family: monospace;
-            font-size: 14px;
         }
         
         #wrapper {
+            /* 
+            Set to inline-block to break collapsing
+            margins.
+            */
             display: inline-block;
-        }
-
-        html {
-            position: relative;
         }
         
         #height-listener {
+            /* 
+            Position absolute with height 100%
+            to expand to the height of the body
+            */
             position: absolute;
-            min-height: 100%;
-            width: 100%;
+            height: 100%;
+            /* 
+            Allow clicks to pass through
+            */
             pointer-events: none;
             border: 0;
         }
         
-        #content {
-            /* float: left; */
-            /* position: relative; */
-            /* height: 100%; */
-            /* position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0; */
-        }
     </style>
 </head>
 <body>
@@ -59,6 +63,24 @@
         </div>
     </div>
     
+    <script>
+        function resize() {
+            // use wrapper for scrollHeight to break
+            // collapsing margin calculations
+            var height = document.getElementById('wrapper').scrollHeight;
+            window.parent.postMessage('resize:' + height + 'px', '*')
+        }
+        
+        // Call resize right away
+        resize()
+        
+        var heightListener = document.getElementById('height-listener')
+        
+        heightListener.contentWindow.addEventListener('resize', resize)
+        
+    </script>
+    
     <script src="iframe.js"></script>
+    
 </body>
 </html>
