@@ -1,18 +1,11 @@
 function resize() {
-    console.log('resizing')
-    // window.parent.postMessage('resize:' + Dimension('body') + 'px', '*')
+    console.log('sending resize postMessage')
     window.parent.postMessage('resize:' + document.querySelector('html').scrollHeight + 'px', '*')
 }
 
 resize()
 
 var heightListener = document.getElementById('height-listener')
-
-console.log('contentWindow', heightListener.contentWindow)
-console.log('contentDocument', heightListener.contentDocument)
-
-var document = heightListener.contentDocument ? heightListener.contentDocument.document : heightListener.contentWindow
-// var document = heightListener.contentWindow
 
 heightListener.contentWindow.addEventListener('resize', function() {
     resize()
